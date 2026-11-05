@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="color-scheme" content="light dark" />
+<meta name="color-scheme" content="light" />
 <meta name="description" content="Dr Innocent Ayesiga — Ugandan medical doctor, global health researcher and public health practitioner. Health systems, infectious diseases, antimicrobial resistance and eye health across sub-Saharan Africa." />
 <link rel="icon" href="data:," />
 <title>Dr Innocent Ayesiga — Global Health Researcher</title>
@@ -12,33 +12,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
+  color-scheme:light only;
   --bg:#FFFFFF; --bg-soft:#F7F7F4; --surface:#FFFFFF;
-  --ink:#16181A; --ink-2:#44484C; --muted:#767B80;
+  --ink:#16181A; --ink-2:#44484C; --muted:#6B7075;
   --teal:#0E3B33; --teal-2:#145144;
+  --teal-soft:#EAF2EF; --teal-soft-2:#DCEAE4;
   --gold:#A8874B;
   --line:#E6E4DE; --line-2:#D8D5CC;
   --serif:"Lora", Georgia, serif; --sans:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#101413; --bg-soft:#161B1A; --surface:#101413;
-    --ink:#EDEEEC; --ink-2:#C4C8C5; --muted:#929894;
-    --teal:#8FC3B2; --teal-2:#A9D3C4;
-    --gold:#C9A86A;
-    --line:#262B29; --line-2:#363D3A;
-  }
-}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
-body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-weight:300; line-height:1.7; -webkit-font-smoothing:antialiased}
+html{background:#FFFFFF}
+body{margin:0; background:#FFFFFF; color:var(--ink); font-family:var(--sans); font-weight:300; line-height:1.7; -webkit-font-smoothing:antialiased}
+main, section, .hero, .page{background:#FFFFFF}
 a{color:inherit}
 img{max-width:100%; display:block}
 .wrap{max-width:1060px; margin:0 auto; padding:0 28px}
-::selection{background:var(--teal); color:#fff}
+::selection{background:var(--teal-soft-2); color:var(--ink)}
 
 /* ---------- Header ---------- */
-.nav{position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+.nav{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.96); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
 .nav-in{display:flex; align-items:center; justify-content:space-between; gap:24px; height:72px}
 .brand{text-decoration:none; line-height:1.25}
 .brand b{font-family:var(--serif); font-weight:600; font-size:18px; display:block; letter-spacing:-.01em}
@@ -71,9 +66,8 @@ section.block:first-of-type{padding-top:48px}
 .sec-title{font-family:var(--serif); font-weight:500; font-size:clamp(24px,3vw,30px); line-height:1.2; margin:0 0 8px; letter-spacing:-.01em}
 .sec-sub{color:var(--ink-2); font-size:15.5px; margin:0 0 36px; max-width:62ch}
 .rule{border:none; border-top:1px solid var(--line); margin:0}
-.btn{display:inline-block; background:var(--teal); color:#fff; text-decoration:none; font-weight:500; font-size:14px; padding:13px 26px; border-radius:999px; border:1px solid var(--teal)}
-.btn:hover{background:var(--teal-2); border-color:var(--teal-2)}
-@media (prefers-color-scheme: dark){ .btn{background:var(--gold); border-color:var(--gold); color:#141414} .btn:hover{background:var(--teal); border-color:var(--teal); color:#fff} }
+.btn{display:inline-block; background:var(--teal-soft); color:var(--teal); text-decoration:none; font-weight:500; font-size:14px; padding:13px 26px; border-radius:999px; border:1px solid var(--teal-soft-2)}
+.btn:hover{background:var(--teal-soft-2); border-color:#BFD6CC; color:var(--teal)}
 .link-arrow{font-size:14.5px; font-weight:500; color:var(--teal); text-decoration:none; border-bottom:1px solid var(--line-2); padding-bottom:2px}
 .link-arrow:hover{border-bottom-color:var(--teal)}
 figure.photo{margin:0}
@@ -186,7 +180,7 @@ figure.photo{margin:0}
 @media (max-width:640px){ .contact-rows li{grid-template-columns:1fr; gap:4px} }
 
 /* ---------- Footer ---------- */
-footer{border-top:1px solid var(--line); margin-top:24px}
+footer{background:#FFFFFF; border-top:1px solid var(--line); margin-top:24px}
 .foot{display:flex; justify-content:space-between; gap:16px 32px; flex-wrap:wrap; padding:30px 0 40px; font-size:13px; color:var(--muted)}
 .foot nav{display:flex; gap:22px; flex-wrap:wrap}
 .foot a{text-decoration:none; color:var(--ink-2)}
