@@ -11,15 +11,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script>
-/* Theme: light by default on first visit; a saved choice is restored before
+/* Theme: dark by default on first visit; a saved choice is restored before
    first paint so there is no flash of the wrong theme. */
 (function(){
-  var t = 'light';
+  var t = 'dark';
   try {
     var saved = window.localStorage.getItem('dr-innocent-theme');
     if (saved === 'dark' || saved === 'light') t = saved;
-  } catch (e) { /* storage unavailable: stay on the light default */ }
+  } catch (e) { /* storage unavailable: stay on the dark default */ }
   document.documentElement.setAttribute('data-theme', t);
+  try {
+    if (window.sessionStorage.getItem('dr-innocent-unlocked') === '1') {
+      document.documentElement.classList.add('gate-unlocked');
+    }
+  } catch (e) { /* storage unavailable: gate shows */ }
 })();
 </script>
 <style>
@@ -209,6 +214,27 @@ figure.photo{margin:0}
 .contact-rows span{font-size:15.5px; color:var(--ink-2)}
 @media (max-width:640px){ .contact-rows li{grid-template-columns:1fr; gap:4px} }
 
+/* ---------- Password gate ---------- */
+.gate{position:fixed; inset:0; z-index:200; background:var(--bg); display:flex; align-items:center; justify-content:center; padding:28px; overflow:auto}
+html.gate-unlocked .gate{display:none}
+html:not(.gate-unlocked) body{overflow:hidden}
+.gate-card{width:100%; max-width:380px; text-align:center; padding:8px 0}
+.gate-kicker{font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:500; color:var(--gold); margin:0 0 20px}
+.gate-card h1{font-family:var(--serif); font-weight:500; font-size:clamp(30px,6vw,38px); line-height:1.15; letter-spacing:-.015em; margin:0 0 12px; color:var(--ink)}
+.gate-card p.gate-sub{font-size:15px; color:var(--muted); margin:0 0 32px; line-height:1.6}
+.gate-form{display:flex; flex-direction:column; gap:12px; text-align:left}
+.gate-form label{font-size:12px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; color:var(--ink-2)}
+.gate-form input{width:100%; font-family:var(--sans); font-size:16px; font-weight:300; color:var(--ink); background:var(--surface); border:1px solid var(--line-2); border-radius:10px; padding:14px 16px; outline:none; transition:border-color .2s ease}
+.gate-form input:focus{border-color:var(--gold)}
+.gate-form input::placeholder{color:var(--muted)}
+.gate-btn{width:100%; font-family:var(--sans); font-size:14.5px; font-weight:500; color:var(--teal); background:var(--teal-soft); border:1px solid var(--teal-soft-2); border-radius:999px; padding:13px 26px; cursor:pointer; margin-top:4px}
+.gate-btn:hover{background:var(--teal-soft-2); border-color:var(--teal-border)}
+.gate-error{display:none; font-size:13.5px; line-height:1.5; margin:4px 0 0; text-align:center; color:#C4554D}
+:root[data-theme="dark"] .gate-error{color:#E08A84}
+.gate-error.show{display:block}
+.gate-form.shake{animation:gateShake .35s ease}
+@keyframes gateShake{0%,100%{transform:none} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}}
+
 /* ---------- Footer ---------- */
 footer{background:var(--bg); border-top:1px solid var(--line); margin-top:24px; transition:background-color .25s ease}
 .foot{display:flex; justify-content:space-between; gap:16px 32px; flex-wrap:wrap; padding:30px 0 40px; font-size:13px; color:var(--muted)}
@@ -218,6 +244,20 @@ footer{background:var(--bg); border-top:1px solid var(--line); margin-top:24px; 
 </style>
 </head>
 <body>
+
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="gate-card">
+    <p class="gate-kicker">Private preview</p>
+    <h1 id="gateTitle">Dr Innocent Ayesiga</h1>
+    <p class="gate-sub">This site is password protected.<br>Please enter the password to continue.</p>
+    <form class="gate-form" id="gateForm" novalidate>
+      <label for="gatePassword">Password</label>
+      <input type="password" id="gatePassword" name="password" placeholder="Enter password" autocomplete="current-password" />
+      <p class="gate-error" id="gateError" role="alert">Incorrect password. Please try again.</p>
+      <button class="gate-btn" type="submit">Enter →</button>
+    </form>
+  </div>
+</div>
 
 <header class="nav">
   <div class="wrap nav-in">
@@ -233,7 +273,7 @@ footer{background:var(--bg); border-top:1px solid var(--line); margin-top:24px; 
       <a href="#/contact" data-nav="contact">Contact</a>
     </nav>
     <div class="nav-tools">
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme" aria-pressed="true" title="Switch to light theme">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/></svg>
       </button>
@@ -669,7 +709,7 @@ footer{background:var(--bg); border-top:1px solid var(--line); margin-top:24px; 
   window.addEventListener('hashchange', function(){ showPage(pageFromHash(), false); });
   window.addEventListener('popstate', function(){ showPage(pageFromHash(), false); });
 
-  /* ---------- Theme toggle (light default, choice remembered) ---------- */
+  /* ---------- Theme toggle (dark default, choice remembered) ---------- */
   var themeToggle = document.getElementById('themeToggle');
   function syncThemeToggle(){
     var dark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -693,6 +733,35 @@ footer{background:var(--bg); border-top:1px solid var(--line); margin-top:24px; 
   });
 
   showPage(pageFromHash(), false);
+})();
+</script>
+<script>
+(function(){
+  var PASSWORD = 'innocent2026';
+  var gate = document.getElementById('gate');
+  var form = document.getElementById('gateForm');
+  var input = document.getElementById('gatePassword');
+  var error = document.getElementById('gateError');
+  if (!gate || !form || !input) return;
+  if (document.documentElement.classList.contains('gate-unlocked')) return;
+  setTimeout(function(){ try { input.focus(); } catch (e) {} }, 60);
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (input.value === PASSWORD) {
+      try { window.sessionStorage.setItem('dr-innocent-unlocked', '1'); } catch (err) {}
+      document.documentElement.classList.add('gate-unlocked');
+      error.classList.remove('show');
+      document.body.style.overflow = '';
+    } else {
+      error.classList.add('show');
+      form.classList.remove('shake');
+      void form.offsetWidth;
+      form.classList.add('shake');
+      input.value = '';
+      input.focus();
+    }
+  });
+  input.addEventListener('input', function(){ error.classList.remove('show'); });
 })();
 </script>
 </body>
