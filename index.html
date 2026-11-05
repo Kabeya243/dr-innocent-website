@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="color-scheme" content="light dark" />
+<meta name="color-scheme" content="dark light" />
 <meta name="description" content="Dr Innocent Ayesiga — Ugandan medical doctor, global health researcher and public health practitioner. Health systems, infectious diseases, antimicrobial resistance and eye health across sub-Saharan Africa." />
 <link rel="icon" href="data:," />
 <title>Dr Innocent Ayesiga — Global Health Researcher</title>
@@ -11,13 +11,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script>
-/* Theme: dark by default on first visit; a saved choice is restored before
-   first paint so there is no flash of the wrong theme. */
+/* Theme: DARK by default on first load, whatever the browser or phone
+   system mode is (the system preference is never consulted). Only an
+   explicit choice made with the sun/moon toggle is restored, before
+   first paint so there is no flash of the wrong theme. The choice is
+   stored under a v2 key: a "light" value saved by the earlier
+   light-default version is ignored, so the first load is dark again. */
 (function(){
   var t = 'dark';
   try {
-    var saved = window.localStorage.getItem('dr-innocent-theme');
+    var saved = window.localStorage.getItem('dr-innocent-theme-v2');
     if (saved === 'dark' || saved === 'light') t = saved;
+    window.localStorage.removeItem('dr-innocent-theme');
   } catch (e) { /* storage unavailable: stay on the dark default */ }
   document.documentElement.setAttribute('data-theme', t);
   try {
@@ -28,18 +33,11 @@
 })();
 </script>
 <style>
-:root{
-  color-scheme:light;
-  --bg:#FFFFFF; --bg-soft:#F7F7F4; --surface:#FFFFFF;
-  --ink:#16181A; --ink-2:#44484C; --muted:#6B7075;
-  --teal:#0E3B33; --teal-2:#145144;
-  --teal-soft:#EAF2EF; --teal-soft-2:#DCEAE4; --teal-border:#BFD6CC;
-  --gold:#A8874B;
-  --line:#E6E4DE; --line-2:#D8D5CC;
-  --nav-bg:rgba(255,255,255,.96);
-  --serif:"Lora", Georgia, serif; --sans:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-:root[data-theme="dark"]{
+/* The base palette IS the dark theme: the page renders dark with no
+   JavaScript and no data-theme attribute, and the system light/dark
+   preference is never used. Light is applied only when the visitor
+   explicitly picks it with the toggle (data-theme="light"). */
+:root, :root[data-theme="dark"]{
   color-scheme:dark;
   --bg:#101315; --bg-soft:#171B1E; --surface:#171B1E;
   --ink:#F1F0EA; --ink-2:#C7CBD0; --muted:#9BA1A7;
@@ -48,6 +46,17 @@
   --gold:#C9A86A;
   --line:#2A2E32; --line-2:#3B4045;
   --nav-bg:rgba(16,19,21,.94);
+  --serif:"Lora", Georgia, serif; --sans:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#FFFFFF; --bg-soft:#F7F7F4; --surface:#FFFFFF;
+  --ink:#16181A; --ink-2:#44484C; --muted:#6B7075;
+  --teal:#0E3B33; --teal-2:#145144;
+  --teal-soft:#EAF2EF; --teal-soft-2:#DCEAE4; --teal-border:#BFD6CC;
+  --gold:#A8874B;
+  --line:#E6E4DE; --line-2:#D8D5CC;
+  --nav-bg:rgba(255,255,255,.96);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -74,9 +83,9 @@ img{max-width:100%; display:block}
 .theme-toggle{display:grid; place-items:center; background:none; border:1px solid var(--line-2); border-radius:999px; width:42px; height:42px; cursor:pointer; color:var(--ink); padding:0; flex:none}
 .theme-toggle:hover{border-color:var(--gold); color:var(--gold)}
 .theme-toggle svg{width:19px; height:19px; display:block}
-.theme-toggle .icon-sun{display:none}
-:root[data-theme="dark"] .theme-toggle .icon-sun{display:block}
-:root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+.theme-toggle .icon-moon{display:none}
+:root[data-theme="light"] .theme-toggle .icon-sun{display:none}
+:root[data-theme="light"] .theme-toggle .icon-moon{display:block}
 .burger{display:none; background:none; border:1px solid var(--line-2); border-radius:8px; width:42px; height:42px; cursor:pointer; color:var(--ink); font-size:17px}
 @media (max-width:820px){
   .nav-links{display:none; position:absolute; top:72px; left:0; right:0; background:var(--bg); border-bottom:1px solid var(--line); flex-direction:column; align-items:flex-start; padding:16px 28px 22px; gap:6px}
@@ -229,8 +238,8 @@ html:not(.gate-unlocked) body{overflow:hidden}
 .gate-form input::placeholder{color:var(--muted)}
 .gate-btn{width:100%; font-family:var(--sans); font-size:14.5px; font-weight:500; color:var(--teal); background:var(--teal-soft); border:1px solid var(--teal-soft-2); border-radius:999px; padding:13px 26px; cursor:pointer; margin-top:4px}
 .gate-btn:hover{background:var(--teal-soft-2); border-color:var(--teal-border)}
-.gate-error{display:none; font-size:13.5px; line-height:1.5; margin:4px 0 0; text-align:center; color:#C4554D}
-:root[data-theme="dark"] .gate-error{color:#E08A84}
+.gate-error{display:none; font-size:13.5px; line-height:1.5; margin:4px 0 0; text-align:center; color:#E08A84}
+:root[data-theme="light"] .gate-error{color:#C4554D}
 .gate-error.show{display:block}
 .gate-form.shake{animation:gateShake .35s ease}
 @keyframes gateShake{0%,100%{transform:none} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}}
@@ -709,7 +718,7 @@ footer{background:var(--bg); border-top:1px solid var(--line); margin-top:24px; 
   window.addEventListener('hashchange', function(){ showPage(pageFromHash(), false); });
   window.addEventListener('popstate', function(){ showPage(pageFromHash(), false); });
 
-  /* ---------- Theme toggle (dark default, choice remembered) ---------- */
+  /* ---------- Theme toggle (dark default, explicit choice remembered) ---------- */
   var themeToggle = document.getElementById('themeToggle');
   function syncThemeToggle(){
     var dark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -720,7 +729,7 @@ footer{background:var(--bg); border-top:1px solid var(--line); margin-top:24px; 
   themeToggle.addEventListener('click', function(){
     var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    try { window.localStorage.setItem('dr-innocent-theme', next); } catch (e) { /* storage unavailable */ }
+    try { window.localStorage.setItem('dr-innocent-theme-v2', next); } catch (e) { /* storage unavailable */ }
     syncThemeToggle();
   });
   syncThemeToggle();
